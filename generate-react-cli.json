@@ -17,6 +17,13 @@
       "withStory": false,
       "withStyle": true,
       "withTest": true
+    },
+    "dashboard": {
+      "path": "src/pages/Dashboard",
+      "withLazy": false,
+      "withStory": false,
+      "withStyle": true,
+      "withTest": true
     }
   }
 }
