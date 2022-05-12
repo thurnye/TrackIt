@@ -1,7 +1,7 @@
 import React, { FC, useState, useEffect } from 'react';
 import jwt_decode from "jwt-decode";
 import {useDispatch} from 'react-redux';
-import {userActions } from '../../../store/userSlice'
+import {login } from '../../../store/userSlice'
 import { Dialog, TextField, Select, Alert } from '../../../components';
 import api from '../../../Api/api';
 import styles from './SignUp.module.scss';
@@ -78,16 +78,15 @@ const SignUp: FC<SignUpProps> = () => {
         jobTitle : jobTitle,
         netIncome : netIncome,
       }
-      console.log("data:", data)
+      // console.log("data:", data)
       const newUser = await api.createAnAccount(data)
-      console.log("newUser", newUser)
+      // console.log("newUser", newUser.data)
       let token = newUser.data
       localStorage.setItem('token', token);  
-      const user = jwt_decode(token); 
+      const user:any = jwt_decode(token); 
+      // console.log('storedUser', user)
       // store the user in redux state
-      dispatch(userActions.login({
-        user: user
-      }))
+      dispatch(login(user))
       
     } catch (error) {
       console.log(error)
