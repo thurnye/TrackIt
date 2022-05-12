@@ -1,25 +1,23 @@
 const Controller = require('../Controller/controller');
 const router = require('express').Router()
 
-//get all users
-router.get('/', Controller.getHompage)
- 
-//post new user
-router.post('/api', Controller.postCreateUser);
+//  ======User Routes ===========
 
-//getting a user item by id
-router.get('/api/:id', Controller.getAUserByID);
+//post signup user
+router.post('/', Controller.postSignup);
 
-//get user to edit
-router.get('/edit/:id', Controller.getEdit);
+//post login user
+router.get('/login', Controller.getLoginUser)
 
-//post the edited user
-router.post('/edit/:id', Controller.postEdit);
+//post updated user
+router.post('/update/:id', Controller.PostUpdatedUser);
 
-//post delete
-router.post('/api/:id', Controller.postDelete);
+//post delete user
+router.post('/remove/:id', Controller.postDelete);
 
 
+
+// ========Subscription Routes=========
 
 
 module.exports = router;

@@ -24,6 +24,13 @@
       "withStory": false,
       "withStyle": true,
       "withTest": true
+    },
+    "homePage": {
+      "path": "src/pages/HomePage",
+      "withLazy": false,
+      "withStory": false,
+      "withStyle": true,
+      "withTest": true
     }
   }
 }
