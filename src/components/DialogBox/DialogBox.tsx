@@ -3,7 +3,6 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import styles from './DialogBox.module.scss';
 
@@ -35,7 +34,7 @@ const DialogBox: FC<DialogBoxProps> = (props:DialogBoxProps) => {
 return (
   <div className={styles.DialogBox} data-testid="DialogBox">
     <Button 
-    variant="outlined" 
+    variant="text" 
     onClick={onClick}
     className={className}
     style={style}
@@ -59,7 +58,8 @@ return (
           {actions.map((el, idx)=> {
             const {label, onClick, disabled, className, style} = el
             return (
-          <Button 
+          <Button
+            variant='contained'
             key={idx}
             onClick={onClick} 
             disabled={disabled} 

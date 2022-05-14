@@ -1,25 +1,48 @@
-import React from 'react';
-import {Router, Routes, Route} from "react-router-dom";
+import React,{useEffect, useState} from 'react';
+import { loadCSS } from 'fg-loadcss';
+import jwt_decode from "jwt-decode";
+import {Routes, Route} from "react-router-dom";
 import {useSelector, useDispatch} from 'react-redux'
-import {userSelector} from './store/userSlice'
+import {userSelector, login} from './store/userSlice'
 import './App.scss';
 import Dashboard from './pages/Dashboard/Dashboard';
-import HomePage from './pages/HomePage/HomePage';
+import LandingPage from './pages/LandingPage/LandingPage';
 import NoMatch from './pages/NoMatch/NoMatch';
+import {NavBar}  from './components'
 
 function App() {
+  const dispatch = useDispatch()
   const user = useSelector(userSelector)
-  console.log("user", user)
+  let token = localStorage.getItem('token')
+  
+  useEffect(() => {
+    const node = loadCSS(
+      'https://use.fontawesome.com/releases/v6.0.0/css/all.css',
+      // Inject before JSS
+      // document && document.querySelector('#font-awesome-css') || document.head.firstChild,
+    );
 
+    return () => {
+      node.parentNode!.removeChild(node);
+    };
+  }, []);
+
+  useEffect(() => {
+    if(token){
+      const user:any = jwt_decode(token)
+      dispatch(login(user))
+    }
+  },[token, dispatch])
+
+
+  
   return (
     <div className="App">
-      Welcome to Track-It 
+      <NavBar user={user}/>
       <Routes>
-          <Route path="/"  element={<HomePage />} />
-          <Route path="*" element={<NoMatch />} />
-          <Route path="/dashboard"  element={<Dashboard />}/>
-          
-           
+        <Route path="/"  element={<LandingPage user={user} />} />
+        <Route path="*" element={<NoMatch />} />
+        {user && <Route path="/dashboard"  element={<Dashboard user={user}/>}/>}
       </Routes>
     </div>
   );

@@ -38,7 +38,7 @@ const subscriptionSchema = new Schema({
     customizedName: {
         type: String
     },
-    Subscriber: {
+    subscriber: {
         type: Schema.Types.ObjectId,
         required: true,
         ref: 'User'

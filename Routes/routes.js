@@ -7,7 +7,7 @@ const router = require('express').Router()
 router.post('/', Controller.postSignup);
 
 //post login user
-router.get('/login', Controller.getLoginUser)
+router.post('/login', Controller.getLoginUser)
 
 //post updated user
 router.post('/update/:id', Controller.PostUpdatedUser);

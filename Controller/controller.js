@@ -8,18 +8,19 @@ const SALT_ROUNDS = 6
 //Signup User
 const postSignup = async (req, res, next) => {
     try {
+        console.log(req.body.password)
         //CREATE USER
         const hashedPassword = await bcrypt.hash(req.body.password, SALT_ROUNDS)
         const newUser = new User ({
-            FirstName: req.body.firstName,
-            LastName: req.body.lastName,
-            Phone: req.body.phone,
-            Email: req.body.email,
-            Password: hashedPassword,
-            EmploymentStatus: req.body.employmentStatus,
-            Company: req.body.company,
-            JobTitle: req.body.jobTitle,
-            NetIncome: req.body.netIncome
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            phone: req.body.phone,
+            email: req.body.email,
+            password: hashedPassword,
+            employmentStatus: req.body.employmentStatus,
+            company: req.body.company,
+            jobTitle: req.body.jobTitle,
+            netIncome: req.body.netIncome
         })
         console.log("newUser:", newUser)
         const user = await newUser.save()
@@ -37,13 +38,19 @@ const postSignup = async (req, res, next) => {
 
 
 //Login user
-const getLoginUser = (req, res, next) => {
-    const id = req.params.id;
-    User.findById(id)
-    .then(data => {
-        res.send({data})
-    })
-    .catch(err => res.status(400).json(err))
+const getLoginUser = async (req, res, next) => {
+    try {
+        const email = req.body.email
+        console.log(req.body)
+        const user = await User.findOne({ email: email }).populate('subscriptions').lean().exec();
+        console.log(user)
+        if (!(await bcrypt.compare(req.body.password, user.password))) throw new Error()
+        const token = jwt.sign({ user }, process.env.SECRET,{ expiresIn: '24h' });
+        res.json(token)
+        
+    } catch {
+        res.status(400).json("email or password is incorrect!.");
+    }
 }
 
 
@@ -53,15 +60,15 @@ const PostUpdatedUser = async (req, res, next) => {
     const id = req.body.id;
     User.findById(id)
     .then(user => {
-        user.FirstName = req.body.firstName;
-        user.LastName = req.body.lastName;
-        user.Phone = req.body.phone;
-        user.Email = req.body.email;
+        user.firstName = req.body.firstName;
+        user.lastName = req.body.lastName;
+        user.phone = req.body.phone;
+        user.email = req.body.email;
         user.Password = req.body.password;
-        user.EmploymentStatus = req.body.employmentStatus;
-        user.Company = req.body.company;
-        user.JobTitle = req.body.jobTitle;
-        user.NetIncome = req.body.netIncome;
+        user.employmentStatus = req.body.employmentStatus;
+        user.company = req.body.company;
+        user.jobTitle = req.body.jobTitle;
+        user.netIncome = req.body.netIncome;
         return user.save()
     })
     .then((user) => {

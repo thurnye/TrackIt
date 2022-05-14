@@ -5,36 +5,36 @@ const {Schema} = mongoose
 
 const userSchema = new Schema({
     
-    FirstName: {
+    firstName: {
     type: Schema.Types.String,
     },
-    LastName: {
+    lastName: {
     type: Schema.Types.String,
     },
-    Phone: {
+    phone: {
       type: Schema.Types.Number,
     },
-    Email: {
+    email: {
       type: Schema.Types.String,
     },
-    Password: {
+    password: {
       type: Schema.Types.String,
     },
-    EmploymentStatus: {
+    employmentStatus: {
     type: Schema.Types.String,
     },
-    Company: {
+    company: {
     type: Schema.Types.String,
     },
-    JobTitle: {
+    jobTitle: {
     type: Schema.Types.String,
     },
-    NetIncome: {
+    netIncome: {
     type: Schema.Types.Number,
     },
-    Subscriptions:[{
+    subscriptions:[{
       type: Schema.Types.ObjectId,
-      ref: 'Subscription', 
+      ref: 'Subscriptions', 
     }
   ],
 },

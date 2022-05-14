@@ -1,8 +1,9 @@
 import React, { FC, useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import {useDispatch} from 'react-redux';
 import {login } from '../../../store/userSlice'
-import { Dialog, TextField, Select, Alert } from '../../../components';
+import { Dialog, TextField, Select, Alert } from '../..';
 import api from '../../../Api/api';
 import styles from './SignUp.module.scss';
 
@@ -11,7 +12,8 @@ interface SignUpProps {}
 
 const SignUp: FC<SignUpProps> = () => {
   const dispatch = useDispatch()
-  const [open, setOpen] = useState<boolean>(true)
+  let navigate = useNavigate();
+  const [open, setOpen] = useState<boolean>(false)
   const [firstName, setFirstName] = useState<string>('')
   const [lastName, setLastName] = useState<string>('')
   const [email, setEmail] = useState<string>('')
@@ -83,11 +85,9 @@ const SignUp: FC<SignUpProps> = () => {
       // console.log("newUser", newUser.data)
       let token = newUser.data
       localStorage.setItem('token', token);  
-      const user:any = jwt_decode(token); 
-      // console.log('storedUser', user)
-      // store the user in redux state
+      const user:any =  await jwt_decode(token); 
       dispatch(login(user))
-      
+      user && navigate(`/dashboard`);
     } catch (error) {
       console.log(error)
     }
@@ -101,6 +101,7 @@ const SignUp: FC<SignUpProps> = () => {
         label="SignUp"
         title="Create an Account"
         open={open}
+        style={{color: 'white'}}
         onClose={() => handleClose()}
         onClick={handleClick}
         actions={[

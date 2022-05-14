@@ -1,13 +1,20 @@
 import React, { FC } from 'react';
-import { Routes, Route, Outlet, Link } from "react-router-dom";
 import styles from './Dashboard.module.scss';
 
-interface DashboardProps {}
+interface DashboardProps {
+  user:any
+}
 
-const Dashboard: FC<DashboardProps> = () => (
-  <div className={styles.Dashboard} data-testid="Dashboard">
-    Dashboard Component
-  </div>
-);
+const Dashboard: FC<DashboardProps> = (props:DashboardProps) => {
+  const {user} = props
+
+
+
+  return(
+    <div className={styles.Dashboard} data-testid="Dashboard">
+      Dashboard Component
+    </div>
+  )
+};
 
 export default Dashboard;
