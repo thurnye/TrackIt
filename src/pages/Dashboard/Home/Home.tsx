@@ -1,12 +1,19 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
+import {useSelector, useDispatch} from 'react-redux'
 import styles from './Home.module.scss';
+import {userSelector} from '../../../store/userSlice'
+interface HomeProps {
+ 
+}
 
-interface HomeProps {}
+const Home: FC<HomeProps> = () => {
+  const user = useSelector(userSelector)
 
-const Home: FC<HomeProps> = () => (
-  <div className={styles.Home} data-testid="Home">
-    Home Component
-  </div>
-);
-
+  console.log(user)
+  return(
+    <div className={styles.Home} data-testid="Home">
+      Home Component
+    </div>
+  );
+}
 export default Home;

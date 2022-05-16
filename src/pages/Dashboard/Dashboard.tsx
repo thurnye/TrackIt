@@ -1,18 +1,13 @@
 import React, { FC, useState } from 'react';
-import { Link } from "react-router-dom";
-import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -182,20 +177,21 @@ const Dashboard: FC<DashboardProps> = (props:DashboardProps) => {
         </Box>
         <Box
           component="main"
-          sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+          sx={{ flexGrow: 1, width: { sm: `calc(100% - ${drawerWidth}px)` }, textAlign:"initial" }}
         >
-          <Toolbar />
+          {/* this toolbar will be used for language settings */}
+          <Toolbar /> 
           {/* Home */}
-          <Box sx={{display: value === 0 ? 'block': 'none'}}><Home/> </Box>
+          <Box sx={{display: value === 0 ? 'block': 'none', p: 3}}><Home/> </Box>
 
           {/* Profile */}
-          <Box sx={{display: value === 1 ? 'block': 'none'}}><Profile/></Box>
+          <Box sx={{display: value === 1 ? 'block': 'none', p: 3}}><Profile/></Box>
 
             {/* Manage Sub */}
-          <Box sx={{display: value === 2 ? 'block': 'none'}}><Subscriptions/></Box>
+          <Box sx={{display: value === 2 ? 'block': 'none', p: 3}}><Subscriptions/></Box>
 
           {/* Add Sub */}
-          <Box sx={{display: value === 3 ? 'block': 'none'}}><AddSub/></Box>
+          <Box sx={{display: value === 3 ? 'block': 'none', p: 3}}><AddSub/></Box>
         </Box>
       </Box>
       
