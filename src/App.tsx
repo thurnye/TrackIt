@@ -9,9 +9,6 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import LandingPage from './pages/LandingPage/LandingPage';
 import NoMatch from './pages/NoMatch/NoMatch';
 import {NavBar}  from './components'
-import Profile from './pages/Dashboard/Profile/Profile';
-import Subscriptions from './pages/Dashboard/Subscriptions/Subscriptions';
-import AddSub from './pages/Dashboard/AddSub/AddSub';
 
 function App() {
   const dispatch = useDispatch()
@@ -44,10 +41,8 @@ function App() {
         <Route path="/"  element={<LandingPage user={user} />} />
         <Route path="*" element={<NoMatch />} />
         {/* {user && <Route path="/dashboard"  element={<Dashboard user={user}/>}/>} */}
-        <Route path="dashboard"  element={<Dashboard user={user}/>}>
-        <Route path="account" element={<Profile />} />
-        <Route path="manage=subscriptions" element={<Subscriptions />} />
-        <Route path="add=subscription" element={<AddSub />} />
+         <Route path="dashboard"  element={<Dashboard user={user}/>}>
+
         </Route>
       </Routes>
     </div>
