@@ -9,6 +9,9 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import LandingPage from './pages/LandingPage/LandingPage';
 import NoMatch from './pages/NoMatch/NoMatch';
 import {NavBar}  from './components'
+import Profile from './pages/Dashboard/Profile/Profile';
+import Subscriptions from './pages/Dashboard/Subscriptions/Subscriptions';
+import AddSub from './pages/Dashboard/AddSub/AddSub';
 
 function App() {
   const dispatch = useDispatch()
@@ -17,9 +20,7 @@ function App() {
   
   useEffect(() => {
     const node = loadCSS(
-      'https://use.fontawesome.com/releases/v6.0.0/css/all.css',
-      // Inject before JSS
-      // document && document.querySelector('#font-awesome-css') || document.head.firstChild,
+      'https://use.fontawesome.com/releases/v6.0.0/css/all.css'
     );
 
     return () => {
@@ -42,7 +43,12 @@ function App() {
       <Routes>
         <Route path="/"  element={<LandingPage user={user} />} />
         <Route path="*" element={<NoMatch />} />
-        {user && <Route path="/dashboard"  element={<Dashboard user={user}/>}/>}
+        {/* {user && <Route path="/dashboard"  element={<Dashboard user={user}/>}/>} */}
+        <Route path="dashboard"  element={<Dashboard user={user}/>}>
+        <Route path="account" element={<Profile />} />
+        <Route path="manage=subscriptions" element={<Subscriptions />} />
+        <Route path="add=subscription" element={<AddSub />} />
+        </Route>
       </Routes>
     </div>
   );

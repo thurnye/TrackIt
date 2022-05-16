@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { Link } from "react-router-dom";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -18,7 +18,41 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Icon from '@mui/material/Icon';
 import styles from './Dashboard.module.scss';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`vertical-tabpanel-${index}`}
+      aria-labelledby={`vertical-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+function a11yProps(index: number) {
+  return {
+    id: `vertical-tab-${index}`,
+    'aria-controls': `vertical-tabpanel-${index}`,
+  };
+}
 interface DashboardProps {
   user:any
   window?: () => Window;
@@ -26,8 +60,13 @@ interface DashboardProps {
 
 const Dashboard: FC<DashboardProps> = (props:DashboardProps) => {
   const {user, window} = props
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   
+  const [value, setValue] = useState(0);
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
 
   const drawerWidth = 240;
 
@@ -53,56 +92,25 @@ const Dashboard: FC<DashboardProps> = (props:DashboardProps) => {
           > DashBoard</Typography>
       </Toolbar>
       <Divider />
-      <List>
+      <Box>
         {[{
-    text: 'Home',
-    path: '/dashboard'
+    text: 'Home'
   },
     {
-    text: 'Profile',
-    path: 'dashboard/account'
+    text: 'Profile'
   },
     {
-    text: 'Manage subscriptions',
-    path: 'dashboard/manage=subscriptions'
+    text: 'Manage subscriptions'
   },
     {
-    text: 'Add Subscription',
-    path: 'dashboard/add=subscription'
+    text: 'Add Subscription'
   },].map((el, index) => (
-          <ListItem key={el.text} disablePadding>
-            <ListItemButton component={'a'} >
-              <ListItemIcon>
-                {index === 0 && <Icon
-                baseClassName="fas"
-                className="fa-duotone fa-house"
-                sx={{ color: 'inherit', width:' 2rem'}}
-                fontSize="small" 
-              />}
-                {index === 1 && <Icon
-                baseClassName="fas"
-                className="fa-duatone fa-user"
-                sx={{ color: 'inherit', width:' 2rem'}}
-                fontSize="small" 
-              />}
-                {index === 2 && <Icon
-                baseClassName="fas"
-                className="fa-solid fa-file-invoice-dollar"
-                sx={{ color: 'inherit', width:' 2rem'}}
-                fontSize="small" 
-              />}
-                {index === 3 && <Icon
-                baseClassName="fas"
-                className="fa-duotone fa-square-plus"
-                sx={{ color: 'inherit', width:' 2rem'}}
-                fontSize="small" 
-              />}
-              </ListItemIcon>
-              <ListItemText primary={el.text} />
-            </ListItemButton>
-          </ListItem>
+        <Tab label={el.text} {...a11yProps(index)} key={index}/>
+
+        // <Tab label="Item One" {...a11yProps(0)} />
+          
         ))}
-      </List>
+      </Box>
       <Divider />
       <List>
         {['Preferences'].map((text, index) => (
@@ -148,6 +156,7 @@ const Dashboard: FC<DashboardProps> = (props:DashboardProps) => {
         aria-label="mailbox folders"
         
       >
+        {/* Mobile */}
         <Drawer
           container={container}
           variant="temporary"
@@ -162,8 +171,13 @@ const Dashboard: FC<DashboardProps> = (props:DashboardProps) => {
             
           }}
         >
+          <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+          
           {drawer}
+        </Tabs>
         </Drawer>
+
+        {/* Desktop */}
         <Drawer
           variant="permanent"
           sx={{
@@ -172,15 +186,70 @@ const Dashboard: FC<DashboardProps> = (props:DashboardProps) => {
           }}
           open
         >
-          {drawer}
+           <Tabs
+        orientation="vertical"
+        variant="standard"
+        value={value}
+        onChange={handleChange}
+        aria-label="Vertical tabs example"
+        sx={{ borderRight: 1, borderColor: 'divider' }}
+      >
+        {/* {drawer} */}
+        {[{
+    text: 'Home'
+  },
+    {
+    text: 'Profile'
+  },
+    {
+    text: 'Manage subscriptions'
+  },
+    {
+    text: 'Add Subscription'
+  },].map((el, index) => (
+        <Tab label={el.text} {...a11yProps(index)} key={index}/>
+
+        // <Tab label="Item One" {...a11yProps(0)} />
+          
+        ))}
+        {/* <Tab label="Item One" {...a11yProps(0)} />
+        <Tab label="Item Two" {...a11yProps(1)} />
+        <Tab label="Item Three" {...a11yProps(2)} />
+        <Tab label="Item Four" {...a11yProps(3)} />
+        <Tab label="Item Five" {...a11yProps(4)} />
+        <Tab label="Item Six" {...a11yProps(5)} />
+        <Tab label="Item Seven" {...a11yProps(6)} /> */}
+      </Tabs>
         </Drawer>
       </Box>
       <Box
         component="main"
         sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
+        <TabPanel value={value} index={0}>
+        Item One
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        Item Two
+      </TabPanel>
+      <TabPanel value={value} index={2}>
+        Item Three
+      </TabPanel>
+      <TabPanel value={value} index={3}>
+        Item Four
+      </TabPanel>
+      <TabPanel value={value} index={4}>
+        Item Five
+      </TabPanel>
+      <TabPanel value={value} index={5}>
+        Item Six
+      </TabPanel>
+      <TabPanel value={value} index={6}>
+        Item Seven
+      </TabPanel>
         <Toolbar />
-        <Typography paragraph>
+        <>
+        {/* <Typography paragraph>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
           tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
           enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
@@ -206,7 +275,8 @@ const Dashboard: FC<DashboardProps> = (props:DashboardProps) => {
           tristique sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
           eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
           posuere sollicitudin aliquam ultrices sagittis orci a.
-        </Typography>
+        </Typography> */}
+        </>
       </Box>
       </Box>
     
