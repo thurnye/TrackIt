@@ -179,8 +179,7 @@ const Dashboard: FC<DashboardProps> = (props:DashboardProps) => {
           component="main"
           sx={{ flexGrow: 1, width: { sm: `calc(100% - ${drawerWidth}px)` }, textAlign:"initial" }}
         >
-          {/* this toolbar will be used for language settings */}
-          <Toolbar /> 
+
           {/* Home */}
           <Box sx={{display: value === 0 ? 'block': 'none', p: 3}}><Home/> </Box>
 
