@@ -9,6 +9,8 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Icon from '@mui/material/Icon';
@@ -17,7 +19,8 @@ import Home from './Home/Home';
 import Profile from './Profile/Profile';
 import Subscriptions from './Subscriptions/Subscriptions';
 import AddSub from './AddSub/AddSub';
-
+import NavStats from './NavStats/NavStats'
+import { Carousel} from '../../components'
 
 interface DashboardProps {
   user:any
@@ -28,7 +31,33 @@ const Dashboard: FC<DashboardProps> = (props:DashboardProps) => {
   const {user, window} = props
   const [mobileOpen, setMobileOpen] = useState(false);
   const [value, setValue] = useState<number>(0)
-  
+
+
+  const options = [
+    'None',
+    'Atria',
+    'Callisto',
+    'Dione',
+    'Ganymede',
+    'Hangouts Call',
+    'Luna',
+    'Oberon',
+    'Phobos',
+    'Pyxis',
+    'Sedna',
+    'Titania',
+    'Triton',
+    'Umbriel',
+  ];
+  const ITEM_HEIGHT = 48;
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const drawerWidth = 240;
 
@@ -130,6 +159,17 @@ const Dashboard: FC<DashboardProps> = (props:DashboardProps) => {
 
   return(
     <div className={styles.Dashboard} data-testid="Dashboard">
+      <div className={styles.Ellipse}>
+        <IconButton
+          color="primary"
+          aria-label="open drawer"
+          edge="start"
+          onClick={handleClick}
+          sx={{ mr: 2, display: { md: 'none' } }}
+        >
+          <i className="fa-solid fa-ellipsis-vertical"></i>
+        </IconButton>
+      </div>
       <div className={styles.hamburger}>
         <IconButton
               color="success"
@@ -140,6 +180,15 @@ const Dashboard: FC<DashboardProps> = (props:DashboardProps) => {
             >
               <MenuIcon />
             </IconButton>
+        <IconButton
+          color="primary"
+          aria-label="open drawer"
+          edge="start"
+          onClick={handleClick}
+          sx={{ mr: 2, display: { md: 'none' } }}
+        >
+          <i className="fa-solid fa-ellipsis-vertical"></i>
+        </IconButton>
       </div>
       <Box sx={{ display: 'flex', justifyContent:"center", alignItems:"start"}} >
         {/* <CssBaseline /> */}
@@ -177,9 +226,36 @@ const Dashboard: FC<DashboardProps> = (props:DashboardProps) => {
         </Box>
         <Box
           component="main"
-          sx={{ flexGrow: 1, width: { sm: `calc(100% - ${drawerWidth}px)` }, textAlign:"initial" }}
+          sx={{ flexGrow: 1, width: { sm: `calc(100% - ${drawerWidth}px)` }, textAlign:"initial", p:1 }}
         >
+          <Box className={styles.ShowNavStats}>
+             <NavStats/>
+          </Box>
 
+          <Menu
+        id="long-menu"
+        MenuListProps={{
+          'aria-labelledby': 'long-button',
+        }}
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        PaperProps={{
+          style: {
+            maxHeight: 'fit-content',
+            width: '20ch',
+          },
+        }}
+      >
+        {/* {options.map((option) => (
+          <MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
+            {option}
+          </MenuItem>
+        ))} */}
+         <NavStats/>
+      </Menu>
+          <Carousel/>
+        
           {/* Home */}
           <Box sx={{display: value === 0 ? 'block': 'none', p: 3}}><Home/> </Box>
 

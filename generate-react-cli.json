@@ -19,7 +19,7 @@
       "withTest": true
     },
     "dashboard": {
-      "path": "src/pages/Dashboard",
+      "path": "src/pages/Dashboard/NavInfo",
       "withLazy": false,
       "withStory": false,
       "withStyle": true,
