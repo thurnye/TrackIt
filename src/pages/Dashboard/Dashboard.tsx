@@ -247,26 +247,21 @@ const Dashboard: FC<DashboardProps> = (props:DashboardProps) => {
           },
         }}
       >
-        {/* {options.map((option) => (
-          <MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
-            {option}
-          </MenuItem>
-        ))} */}
          <NavStats/>
       </Menu>
           <Carousel/>
         
           {/* Home */}
-          <Box sx={{display: value === 0 ? 'block': 'none', p: 3}}><Home/> </Box>
+          <Box sx={{display: value === 0 ? 'block': 'none', p: 2}}><Home/> </Box>
 
           {/* Profile */}
-          <Box sx={{display: value === 1 ? 'block': 'none', p: 3}}><Profile/></Box>
+          <Box sx={{display: value === 1 ? 'block': 'none', p: 2}}><Profile/></Box>
 
             {/* Manage Sub */}
-          <Box sx={{display: value === 2 ? 'block': 'none', p: 3}}><Subscriptions/></Box>
+          <Box sx={{display: value === 2 ? 'block': 'none', p: 2}}><Subscriptions/></Box>
 
           {/* Add Sub */}
-          <Box sx={{display: value === 3 ? 'block': 'none', p: 3}}><AddSub/></Box>
+          <Box sx={{display: value === 3 ? 'block': 'none', p: 2}}><AddSub/></Box>
         </Box>
       </Box>
       

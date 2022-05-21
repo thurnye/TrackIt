@@ -16,7 +16,7 @@ const Carousel: FC<CarouselProps> = () => (
         // loop
         autoplay
         items={10}
-        mouseDrag={false}
+        mouseDrag={true}
         margin={10}
         dots={false}
       >
