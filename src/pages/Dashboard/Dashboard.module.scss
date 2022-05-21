@@ -1,8 +1,38 @@
 .Dashboard {}
 
 .hamburger{
-    text-align: initial;
+    display: flex;
+    justify-content: space-between;
 }
 .hamburger button {
     margin-left: 10px;
+}
+
+.Ellipse{
+    display: none
+}
+.ShowNavStats{
+    display: none;
+}
+
+@media (min-width: 600px) and (max-width: 856px){
+    .Ellipse{
+        display: block;
+        text-align: end;
+    }
+    .ShowNavStats{
+        display: none;
+    }
+}
+@media (min-width: 600px){
+    .hamburger{
+        display: none;
+    }
+    
+}
+
+@media (min-width: 857px){
+    .ShowNavStats{
+        display: block;
+    }
 }
