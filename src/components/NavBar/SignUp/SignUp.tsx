@@ -1,12 +1,21 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import {useDispatch} from 'react-redux';
+import { useForm} from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import {login } from '../../../store/userSlice'
-import { Dialog, TextField, Select, Alert } from '../..';
+import { Dialog} from '../../index';
 import api from '../../../Api/api';
+import Divider from '@mui/material/Divider';
+import {validationSchema} from '../../../utils/Validations' 
 import styles from './SignUp.module.scss';
 
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import MenuItem from '@mui/material/MenuItem';
 
 interface SignUpProps {}
 
@@ -14,20 +23,15 @@ const SignUp: FC<SignUpProps> = () => {
   const dispatch = useDispatch()
   let navigate = useNavigate();
   const [open, setOpen] = useState<boolean>(false)
-  const [firstName, setFirstName] = useState<string>('')
-  const [lastName, setLastName] = useState<string>('')
-  const [email, setEmail] = useState<string>('')
-  const [password, setPassword] = useState<string>('')
-  const [confirmedPassword, setConfirmedPassword] = useState<string>('')
-  const [phone, setPhone] = useState<string| number>('')
-  const [employmentStatus, setEmploymentStatus] = useState<string>("Employed")
-  const [company, setCompany] = useState<string>('')
-  const [jobTitle, setJobTitle] = useState<string>('')
-  const [netIncome, setNetIncome] = useState<string| number>('')
-  const [disabled, setDisabled] = useState<boolean>(true)
-  const [passwordError, setPasswordError] = useState<boolean>(false)
 
-  const [passwordType, setPasswordType] = React.useState<string>('password')
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors }
+  } = useForm({
+    resolver: yupResolver(validationSchema)
+  });
 
   const handleClick = () => {
     setOpen(true)
@@ -35,52 +39,18 @@ const SignUp: FC<SignUpProps> = () => {
   
   const handleClose = () => {
     setOpen(false)
-    setFirstName('')
-    setLastName('')
-    setPhone('')
-    setEmail('')
-    setPassword('')
-    setConfirmedPassword('')
-    setEmploymentStatus('Employed')
-    setCompany('')
-    setJobTitle('')
-    setNetIncome('')
-    setPasswordError(false)
-    setDisabled(true)
+    reset()
   }
 
 
-  useEffect(() => {
-    if(
-      !firstName || firstName === '' || !lastName || lastName === '' || !phone || phone === '' || !email || email === '' || !password || password === '' || !confirmedPassword || confirmedPassword === '' || !employmentStatus || employmentStatus === '' || !company || company === '' || !jobTitle || jobTitle === '' || !netIncome || netIncome === '' || netIncome <= 0){
-        setDisabled(true)
-    }else{
-      setDisabled(false)
-    }
  
-  },[firstName, lastName, phone, email, password, employmentStatus, company, jobTitle, netIncome, confirmedPassword])
 
 
-
-  const handleSignUp = async () => {
+  const handleSignUp = async (data:any) => {
     try {
-      if(password !== confirmedPassword){
-        setPasswordError(true)
-        setDisabled(true)
-        return;
-      }
-      const data:object = {
-        firstName : firstName,
-        lastName : lastName,
-        phone : phone,
-        email : email,
-        password : password,
-        employmentStatus : employmentStatus,
-        company : company,
-        jobTitle : jobTitle,
-        netIncome : netIncome,
-      }
-      // console.log("data:", data)
+      
+      // const data:object = {}
+      console.log("data:", data)
       const newUser = await api.createAnAccount(data)
       // console.log("newUser", newUser.data)
       let token = newUser.data
@@ -93,6 +63,15 @@ const SignUp: FC<SignUpProps> = () => {
     }
   }
   
+  
+  const options=[
+    'Employed',
+    'Unemployed',
+    'Self-Employed',
+    'Student',
+    'Retired',
+  ]
+
 
   
   return (
@@ -102,108 +81,212 @@ const SignUp: FC<SignUpProps> = () => {
         title="Create an Account"
         open={open}
         style={{color: 'white'}}
-        onClose={() => handleClose()}
         onClick={handleClick}
         actions={[
           {
+            label: "Cancel",
+            onClick : () => handleClose()
+          },
+          {
             label: "SignUp",
-            onClick: () => handleSignUp(),
-            disabled: disabled
+            onClick : handleSubmit(handleSignUp)
           }
         ]}
-        children = {<>
-          {passwordError && <Alert severity="error" text="Passwords do not match!"/>}
-        {/* Basic Information */}
+        children = {
+        <>
+        
         <div>
-          <TextField
-            label='First Name'
-            name='firstName'
-            value={firstName}
-            type='text'
-            onChange={(e:any) => setFirstName(e.target.value)}
-          />
-          <TextField
-          label='Last Name'
-            name='lastName'
-            value={lastName}
-            type='text'
-            onChange={(e:any) => setLastName(e.target.value)}
-          />
-        </div>
-        
-        <TextField
-          label='Email'
-          name='email'
-          value={email}
-          type='email'
-          onChange={(e:any) => setEmail(e.target.value)}
-        />
-        
-        <TextField
-          label='Phone'
-          name='phoneNumber'
-          value={phone}
-          type='number'
-          onChange={(e:any) => setPhone(e.target.value)}
-        />
+      
+      {/* Personal Information */}
+        <Box px={3} py={2}>
+          <Typography >
+            Basic Information
+          </Typography>
+          <Grid container spacing={1}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+              variant="standard" 
+                required
+                id="firstName"
+                label="First Name"
+                fullWidth
+                margin="dense"
+                {...register('firstName')}
+                error={errors.firstName ? true : false}
+              />
+              <Typography variant="inherit" color="textSecondary">
+                {errors.firstName?.message}
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+              variant="standard" 
+                required
+                id="lastName"
+                label="Last Name"
+                fullWidth
+                margin="dense"
+                {...register('lastName')}
+                error={errors.lastName ? true : false}
+              />
+              <Typography variant="inherit" color="textSecondary">
+                {errors.lastName?.message}
+              </Typography>
+            </Grid>
+            
+            <Grid item xs={12} sm={6}>
+              <TextField
+              variant="standard" 
+                required
+                id="email"
+                label="Email"
+                fullWidth
+                margin="dense"
+                {...register('email')}
+                error={errors.email ? true : false}
+              />
+              <Typography variant="inherit" color="textSecondary">
+                {errors.email?.message}
+              </Typography>
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <TextField
+              variant="standard" 
+                required
+                id="phoneNumber"
+                label="Phone Number"
+                fullWidth
+                margin="dense"
+                {...register('phoneNumber')}
+                error={errors.phoneNumber ? true : false}
+              />
+              <Typography variant="inherit" color="textSecondary">
+                {errors.phoneNumber?.message}
+              </Typography>
+            </Grid>
+          </Grid>
+        </Box>
 
         {/* Professional Information */}
-          <Select
-          value={employmentStatus} 
-          name="EmploymentStatus"
-          onChange={(e:any) => setEmploymentStatus(e.target.value)}
-          options={[
-            {label: 'Employed', value: "Employed"},
-            {label: 'Unemployed', value: "Unemployed"},
-            {label: 'Self-Employed', value: "Self-Employed"},
-            {label: 'Student', value: "Student"},
-            {label: 'Retired', value: "Retired"}
-          ]}
-          />
-          <TextField
-            label='Company'
-            name='Company'
-            value={company}
-            type='string'
-            onChange={(e:any) => setCompany(e.target.value)}
-          />
-          <TextField
-            label='Job Title'
-            name='JobTitle'
-            value={jobTitle}
-            type='string'
-            onChange={(e:any) => setJobTitle(e.target.value)}
-          />
-          <TextField
-            label='Net Income'
-            name='netIncome'
-            value={netIncome}
-            type='number'
-            onChange={(e:any) => setNetIncome(e.target.value)}
-            position="start"
-            symbol={"$"}
-          />
-          <div>
-          <TextField
-          label='Password'
-          name='password'
-          value={password}
-          type={passwordType}
-          onChange={(e:any) => setPassword(e.target.value)}
-          position="end"
-          changeType={() => setPasswordType('text')}
+        <Box px={3} py={2} style={{marginTop: '35px'}}>
+          <Typography >
+            Professional Information
+          </Typography>
+          <Divider/>
+          <Grid container spacing={1}>
+            <Grid item xs={12} sm={6}>
+              
 
-        />
-        <TextField
-          label='Confirm Password'
-          name='ConfirmedPassword'
-          value={confirmedPassword}
-          type='password'
-          onChange={(e:any) => setConfirmedPassword(e.target.value)}
-          position="end"
+              <TextField
+              variant="standard" 
+                select
+                fullWidth
+                defaultValue={options[0]}
+                label="Employment Status"
+                {...register('employmentStatus')}
+                margin="dense"
+                error={errors.employmentStatus ? true : false}
+                
+              >
+                {options.map((option) => (
+                  <MenuItem 
+                  key={option} value={option} style={{backgroundColor: "inherit !important"}}>
+                    {option}
+                  </MenuItem>
+                ))}
+              </TextField>
+                    
+              <Typography variant="inherit" color="textSecondary">
+                {errors.employmentStatus?.message}
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+              variant="standard" 
+                required
+                id="company"
+                label="Company"
+                fullWidth
+                margin="dense"
+                {...register('company')}
+                error={errors.company ? true : false}
+              />
+              <Typography variant="inherit" color="textSecondary">
+                {errors.company?.message}
+              </Typography>
+            </Grid>
+            
+            <Grid item xs={12} sm={6}>
+              <TextField
+              variant="standard" 
+                required
+                id="jobTitle"
+                label="Job Title"
+                fullWidth
+                margin="dense"
+                {...register('jobTitle')}
+                error={errors.jobTitle ? true : false}
+              />
+              <Typography variant="inherit" color="textSecondary">
+                {errors.jobTitle?.message}
+              </Typography>
+            </Grid>
 
-        />
-          </div>
+            <Grid item xs={12} sm={6}>
+              <TextField
+              variant="standard" 
+                required
+                type={'number'}
+                id="netIncome"
+                label="Net Income"
+                fullWidth
+                margin="dense"
+                {...register('netIncome')}
+                error={errors.netIncome ? true : false}
+                
+              />
+              <Typography variant="inherit" color="textSecondary">
+                {errors.netIncome?.message}
+              </Typography>
+            </Grid>
+            
+            <Grid item xs={12} sm={6}>
+              <TextField
+              variant="standard" 
+                required
+                id="password"
+                label="Password"
+                type="password"
+                fullWidth
+                margin="dense"
+                {...register('password')}
+                error={errors.password ? true : false}
+              />
+              <Typography variant="inherit" color="textSecondary">
+                {errors.password?.message}
+              </Typography>
+            </Grid>
+            
+            <Grid item xs={12} sm={6}>
+              <TextField
+              variant="standard" 
+                required
+                id="confirmPassword"
+                label="Confirm Password"
+                type="password"
+                fullWidth
+                margin="dense"
+                {...register('confirmPassword')}
+                error={errors.confirmPassword ? true : false}
+              />
+              <Typography variant="inherit" color="textSecondary">
+                {errors.confirmPassword?.message}
+              </Typography>
+            </Grid>
+          </Grid>
+        </Box>
+    </div>
         </>}
       />
     </div>

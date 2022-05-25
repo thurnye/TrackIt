@@ -19,7 +19,7 @@ interface DialogBoxProps {
   label: string
   title: string
   open: boolean
-  onClose: any
+  onClose?: any
   onClick: any
   children:  React.ReactNode 
   style?: object

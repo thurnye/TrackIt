@@ -31,6 +31,13 @@
       "withStory": false,
       "withStyle": true,
       "withTest": true
+    },
+    "chart": {
+      "path": "src/components/Charts",
+      "withLazy": false,
+      "withStory": false,
+      "withStyle": true,
+      "withTest": true
     }
   }
 }
