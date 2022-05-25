@@ -22,11 +22,13 @@ interface DropdownProps {
   options: Array<MenuItemProps>
   hasError?: boolean
   errorMessage?: string
+  error? : boolean
+  id?: any
 }
 
 const Dropdown: FC<DropdownProps> = (props: DropdownProps ) => {
   
-  const { label, value, name, onChange, className, style, options, hasError, errorMessage} = props
+  const { id,label, value, name, onChange, className, style, options, hasError, errorMessage, error} = props
 
   return (
     <div className={styles.Dropdown} data-testid="Dropdown">
@@ -41,6 +43,8 @@ const Dropdown: FC<DropdownProps> = (props: DropdownProps ) => {
             name={name}
             className={className}
             style={style}
+            error={error}
+            id={id}
           >
             {options.map((el, idx) => {
               const {label, value, disabled} = el

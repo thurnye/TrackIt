@@ -11,10 +11,10 @@ import { Input } from '@mui/material';
 
 interface InputFieldProps {
   label?: string
-  name?: string
-  value?: string | number
-  onChange?: any
-  type?: string
+  name: string
+  value: string | number
+  onChange: any
+  type: string
   disabled?: boolean
   className?: string
   style?: object
@@ -34,16 +34,16 @@ const InputField: FC<InputFieldProps> = (props: InputFieldProps) => {
   return(
   <div className={styles.InputField} data-testid="InputField">
     <Box
-      component="div"
+      component="form"
       sx={{
         '& > :not(style)': { m: 1, width: '25ch' },
       }}
-      // noValidate={false}
-      // autoComplete="off"
+      noValidate={false}
+      autoComplete="off"
       className={className}
       style={style}
     >
-      <div >
+      <FormControl fullWidth sx={{ m: 1 }} variant="standard">
       <InputLabel htmlFor="standard-adornment-amount">{label}</InputLabel>
         <Input
         name={name}
@@ -54,7 +54,7 @@ const InputField: FC<InputFieldProps> = (props: InputFieldProps) => {
         startAdornment={<InputAdornment position={position || "end"}>{symbol}</InputAdornment>}
         />
     {hasError && (<FormHelperText style={{ color: "salmon" }}>{errorMessage}</FormHelperText>)}
-    </div>
+    </FormControl>
     </Box>
   </div>
 )};
