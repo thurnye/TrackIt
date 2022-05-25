@@ -224,12 +224,22 @@ const Dashboard: FC<DashboardProps> = (props:DashboardProps) => {
             {drawer}
           </Drawer>
         </Box>
+
+        {/* MAIN */}
         <Box
           component="main"
-          sx={{ flexGrow: 1, width: { sm: `calc(100% - ${drawerWidth}px)` }, textAlign:"initial", p:1 }}
+          sx={{ 
+            flexGrow: 1, 
+            width: { sm: `calc(100% - ${drawerWidth}px)` }, 
+            textAlign:"initial", 
+            p:1,
+            // height: 'calc(100vh - 70px)',
+            overflow: 'auto',
+            border: '2px solid red'
+           }}
         >
           <Box className={styles.ShowNavStats}>
-             <NavStats/>
+             {/* <NavStats/> */}
           </Box>
 
           <Menu
@@ -247,22 +257,23 @@ const Dashboard: FC<DashboardProps> = (props:DashboardProps) => {
           },
         }}
       >
-         <NavStats/>
-      </Menu>
-          <Carousel/>
-        
-          {/* Home */}
-          <Box sx={{display: value === 0 ? 'block': 'none', p: 2}}><Home/> </Box>
+        <NavStats/>
+        </Menu>
+        {/* <Carousel/> */}
+        {/* <Box sx={{border: '2px dotted red'}}>  */}
+            {/* Home */}
+            <Box sx={{display: value === 0 ? 'block': 'none', p: 2}}><Home/> </Box>
 
-          {/* Profile */}
-          <Box sx={{display: value === 1 ? 'block': 'none', p: 2}}><Profile/></Box>
+            {/* Profile */}
+            <Box sx={{display: value === 1 ? 'block': 'none', p: 2}}><Profile/></Box>
 
-            {/* Manage Sub */}
-          <Box sx={{display: value === 2 ? 'block': 'none', p: 2}}><Subscriptions/></Box>
+              {/* Manage Sub */}
+            <Box sx={{display: value === 2 ? 'block': 'none', p: 2}}><Subscriptions/></Box>
 
-          {/* Add Sub */}
-          <Box sx={{display: value === 3 ? 'block': 'none', p: 2}}><AddSub/></Box>
-        </Box>
+            {/* Add Sub */}
+            <Box sx={{display: value === 3 ? 'block': 'none', p: 2}}><AddSub/></Box>
+          </Box>
+        {/* </Box> */}
       </Box>
       
     </div>

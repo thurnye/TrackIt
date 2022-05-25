@@ -1,0 +1,32 @@
+[
+    {
+      "id": "Others",
+      "label": "Others",
+      "value": 560,
+      "color": "hsl(168, 70%, 50%)"
+    },
+    {
+      "id": "Lifestyle",
+      "label": "Lifestyle",
+      "value": 90,
+      "color": "hsl(316, 70%, 50%)"
+    },
+    {
+      "id": "Education",
+      "label": "Education",
+      "value": 485,
+      "color": "hsl(52, 70%, 50%)"
+    },
+    {
+      "id": "Utilities",
+      "label": "Utilities",
+      "value": 497,
+      "color": "hsl(6, 70%, 50%)"
+    },
+    {
+      "id": "Entertainment",
+      "label": "Entertainment",
+      "value": 497,
+      "color": "hsl(288, 70%, 50%)"
+    }
+  ]
