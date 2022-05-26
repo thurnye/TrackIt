@@ -14,7 +14,7 @@ const postSignup = async (req, res, next) => {
         const newUser = new User ({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
-            phone: req.body.phone,
+            phone: req.body.phoneNumber,
             email: req.body.email,
             password: hashedPassword,
             employmentStatus: req.body.employmentStatus,
@@ -62,7 +62,7 @@ const PostUpdatedUser = async (req, res, next) => {
     .then(user => {
         user.firstName = req.body.firstName;
         user.lastName = req.body.lastName;
-        user.phone = req.body.phone;
+        user.phone = req.body.phoneNumber;
         user.email = req.body.email;
         user.Password = req.body.password;
         user.employmentStatus = req.body.employmentStatus;

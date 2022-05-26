@@ -235,7 +235,6 @@ const Dashboard: FC<DashboardProps> = (props:DashboardProps) => {
             p:1,
             // height: 'calc(100vh - 70px)',
             overflow: 'auto',
-            border: '2px solid red'
            }}
         >
           <Box className={styles.ShowNavStats}>
